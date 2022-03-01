@@ -65,11 +65,8 @@ namespace Service.ExternalBinanceApi.Services
 
             var dict = new Dictionary<string, ExchangeBalance>();
 
-            Console.WriteLine($"refresh start");
-            
             foreach (var balance in balances)
             {
-                Console.WriteLine($"  refresh: {balance.Asset}");
                 using var activityBalance = MyTelemetry.StartActivity($"Update balance {balance.Asset}")?.AddTag("asset", balance.Asset);
                 
                 try
@@ -91,12 +88,9 @@ namespace Service.ExternalBinanceApi.Services
                     _logger.LogWarning(ex, $"Cannot update borrow balance: {ex.Message}");
                     throw;
                 }
-                
-                Console.WriteLine($"  done: {balance.Asset}");
             }
 
             _balances = dict;
-            Console.WriteLine($"refresh done");
         }
 
         private async Task<List<MarginAccountBalance>> GetMarginAccountBalances()
