@@ -10,9 +10,4 @@
     <PackageReference Include="protobuf-net.Grpc" Version="1.0.152" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Service.ExternalBinanceApi.Client\Service.ExternalBinanceApi.Client.csproj" />
-    <ProjectReference Include="..\..\src\Service.ExternalBinanceApi.Grpc\Service.ExternalBinanceApi.Grpc.csproj" />
-  </ItemGroup>
-
 </Project>
