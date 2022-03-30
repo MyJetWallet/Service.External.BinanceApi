@@ -151,6 +151,11 @@ namespace Service.ExternalBinanceApi.Services
             return Task.FromResult(new GetTradesResponse { IsError = true, ErrorMessage = "Method is not implemented" });
         }
 
+        public Task<ExchangeTrade> MakeLimitTradeAsync(MakeLimitTradeRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         private ExchangeTrade ParseOrder(MarginTrade order)
         {
             if (order == null)
