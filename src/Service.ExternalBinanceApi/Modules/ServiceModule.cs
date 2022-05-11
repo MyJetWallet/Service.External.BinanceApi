@@ -12,7 +12,7 @@ namespace Service.ExternalBinanceApi.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var noSqlClient = builder.CreateNoSqlClient(Program.ReloadedSettings(e => e.MyNoSqlReaderHostPort));
+            var noSqlClient = builder.CreateNoSqlClient(Program.Settings.MyNoSqlReaderHostPort, Program.LogFactory);
             
             builder.RegisterMyNoSqlReader<ExternalMarketSettingsNoSql>(noSqlClient, ExternalMarketSettingsNoSql.TableName);
 
