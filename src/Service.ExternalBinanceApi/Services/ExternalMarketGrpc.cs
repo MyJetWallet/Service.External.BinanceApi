@@ -212,5 +212,66 @@ namespace Service.ExternalBinanceApi.Services
                 throw;
             }
         }
+        
+        public async Task<GetWithdrawalsHistoryResponse> GetWithdrawalsHistoryAsync(GetWithdrawalsHistoryRequest historyRequest)
+        {
+            using var activity = MyTelemetry.StartActivity("Get withdrawals hHistory");
+            return new GetWithdrawalsHistoryResponse()
+            {
+                IsError = true,
+                ErrorMessage = "Not implemented",
+            };
+            // FtxResult<List<WithdrawalHistory>> resp = null;
+            //
+            // try
+            // {
+            //     resp =  await _client.GetWithdrawalHistoryAsync(request.From, request.To);
+            //
+            //     if (!resp.Success)
+            //     {
+            //         _logger.LogError("Cannot GetWithdrawalsHistory, ftx request failed. Request: {@request}. Response: {@resp}", request, resp);
+            //
+            //         return new GetWithdrawalsHistoryResponse
+            //         {
+            //             IsError = true,
+            //             ErrorMessage = $"Ftx request failed. Ftx message: {resp.Error}"
+            //         };
+            //     }
+            //     
+            //     return new GetWithdrawalsHistoryResponse
+            //     {
+            //         Withdrawals = resp.Result
+            //             .Where(f => f.Status == "complete")
+            //             .Select(withdrawal => new Withdrawal
+            //             {
+            //                 Symbol = withdrawal.Coin,
+            //                 TxId = withdrawal.TxId,
+            //                 Id = withdrawal.Id.ToString(CultureInfo.InvariantCulture),
+            //                 Fee = withdrawal.Fee,
+            //                 Amount = withdrawal.Size,
+            //                 Note = withdrawal.Notes,
+            //                 Date = DateTime.ParseExact(withdrawal.Time, "yyyy-MM-ddTHH:mm:ss.ffffff", 
+            //                     System.Globalization.CultureInfo.InvariantCulture)
+            //             })
+            //             .ToList()
+            //     };
+            // }
+            // catch(Exception ex)
+            // {
+            //     _logger.LogError(ex, "Cannot GetWithdrawalsHistory. Request: {@request}. Response: {@resp}", request, resp);
+            //     ex.FailActivity();
+            //     throw;
+            // }
+        }
+
+        public async Task<GetDepositsHistoryResponse> GetDepositsHistoryAsync(GetDepositsHistoryRequest historyRequest)
+        {
+            using var activity = MyTelemetry.StartActivity("Get deposits hHistory");
+            return new GetDepositsHistoryResponse()
+            {
+                IsError = true,
+                ErrorMessage = "Not implemented",
+            };
+        }
     }
 }
