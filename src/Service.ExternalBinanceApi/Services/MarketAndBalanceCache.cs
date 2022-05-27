@@ -68,25 +68,23 @@ namespace Service.ExternalBinanceApi.Services
             foreach (var balance in balances)
             {
                 using var activityBalance = MyTelemetry.StartActivity($"Update balance {balance.Asset}")?.AddTag("asset", balance.Asset);
+                var item = new ExchangeBalance()
+                {
+                    Symbol = balance.Asset,
+                    Balance = balance.Free - balance.Borrowed,
+                };
+                
+                dict[item.Symbol] = item;
                 
                 try
                 {
                     var free = await _client.GetMaxBorrowAsync(_user, balance.Asset);
-
-                    var item = new ExchangeBalance()
-                    {
-                        Symbol = balance.Asset,
-                        Balance = balance.Free - balance.Borrowed,
-                        Free = (decimal) free
-                    };
-
-                    dict[item.Symbol] = item;
+                    item.Free = (decimal)free;
                 }
                 catch (Exception ex)
                 {
                     ex.FailActivity();
-                    _logger.LogWarning(ex, $"Cannot update borrow balance: {ex.Message}");
-                    throw;
+                    _logger.LogWarning(ex, $"Cannot update borrow balance {balance.Asset}: {ex.Message}");
                 }
             }
 
@@ -98,8 +96,8 @@ namespace Service.ExternalBinanceApi.Services
             try
             {
                 var markets = GetMarkets();
-                var baseAssets = markets.Select(e => e.BaseAsset);
-                var quoteAssets = markets.Select(e => e.QuoteAsset);
+                var baseAssets = markets.Select(e => e.BaseAsset).ToHashSet();
+                var quoteAssets = markets.Select(e => e.QuoteAsset).ToHashSet();
                 var balances = await _client.GetMarginBalancesAsync(_user);
                 
                 balances = balances.Where(e => baseAssets.Contains(e.Asset) || quoteAssets.Contains(e.Asset)).ToList();
