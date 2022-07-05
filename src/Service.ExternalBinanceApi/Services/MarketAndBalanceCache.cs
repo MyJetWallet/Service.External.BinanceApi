@@ -84,7 +84,17 @@ namespace Service.ExternalBinanceApi.Services
                 catch (Exception ex)
                 {
                     ex.FailActivity();
-                    _logger.LogWarning(ex, $"Cannot update borrow balance {balance.Asset}: {ex.Message}");
+
+                    if (ex.Message.Contains("3045")) // system doesn't has asset now
+                    {
+                        _logger.LogInformation("Cannot update borrow balance {@Asset}: {ExMess}",
+                            balance.Asset, ex.Message);
+                    }
+                    else
+                    {
+                        _logger.LogWarning(ex, "Cannot update borrow balance {@Asset}: {ExMess}",
+                            balance.Asset, ex.Message);
+                    }
                 }
             }
 
